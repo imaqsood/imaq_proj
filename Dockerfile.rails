@@ -1,0 +1,22 @@
+FROM ruby:3.1.3-bullseye
+
+ARG USER_ID
+ARG GROUP_ID
+
+RUN addgroup --gid $GROUP_ID docker && \
+    adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID docker
+
+ENV APP_PATH /opt/app
+
+RUN gem install rails
+
+RUN mkdir -p $APP_PATH
+
+RUN chown -R docker:docker $APP_PATH
+
+USER docker
+
+WORKDIR $APP_PATH
+
+CMD bash
+
