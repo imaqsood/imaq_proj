@@ -4,7 +4,7 @@ services:
     image: postgres:15.2-bullseye
     environment:
       POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker124
+      POSTGRES_PASSWORD: docker123
     ports:
       - "5432:5432"
     volumes:
@@ -21,7 +21,7 @@ services:
       labels:
         imaq: 'Modern Rails Development'
     volumes:
-      - gem_cache:/var/local/bundle
+      - gem_cache:/usr/local/bundle
       - ./App/:/opt/app
     networks:
       - frontend
