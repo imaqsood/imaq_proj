@@ -1,0 +1,4 @@
+USER_ID=1000
+GROUP_ID=1000
+
+DB_URL=postgresql://docker:docker123@pg:5432/imaq?encoding=utf8&pool=5&timeout=5000
