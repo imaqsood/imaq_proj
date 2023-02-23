@@ -1,11 +1,10 @@
 #!/bin/bash
 
-
 echo $RAILS_ENV
 
 if [[ $RAILS_ENV -eq 'development' ]]
 then
-  bundle check && bundle install
+  bundle check || bundle install
 fi;
 
 exec "$@"

@@ -1,0 +1,50 @@
+version: "3.7"
+services:
+  pg:
+    image: postgres:15.2-bullseye
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker124
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - backend
+  web:
+    build:
+      context: App/
+      args:
+        USER_ID: "${USER_ID:-1000}"
+        GROUP_ID: "${GROUP_ID:-1000}"
+      target: development
+      labels:
+        imaq: 'Modern Rails Development'
+    volumes:
+      - gem_cache:/var/local/bundle
+      - ./App/:/opt/app
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "3000:3000"
+    env_file: App/.env
+    depends_on:
+      - pg
+      - redis
+  redis:
+    image: redis:7.0.8-bullseye
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/lib/redis/data
+    networks:
+      - backend
+volumes:
+  pg_data:
+  redis_data:
+  gem_cache:
+networks:
+  frontend:
+  backend:
+
