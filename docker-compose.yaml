@@ -20,6 +20,7 @@ services:
       target: development
       labels:
         imaq: 'Modern Rails Development'
+    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-P", "/tmp/server.pid"]
     volumes:
       - gem_cache:/usr/local/bundle
       - ./App/:/opt/app
@@ -27,7 +28,7 @@ services:
       - frontend
       - backend
     ports:
-      - "3000:3000"
+      - "3000"
     env_file: App/.env
     depends_on:
       - pg
@@ -40,6 +41,16 @@ services:
       - redis_data:/var/lib/redis/data
     networks:
       - backend
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./reverse-proxy.conf:/etc/nginx/conf.d/reverse-proxy.conf
+    ports:
+      - "8000:8000"
+    depends_on:
+      - web
+    networks:
+      - frontend
 volumes:
   pg_data:
   redis_data:
