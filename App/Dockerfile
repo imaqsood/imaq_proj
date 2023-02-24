@@ -10,7 +10,8 @@ ARG NODE_VERSION=19
 ENV RAILS_ENV="${RAILS_ENV}" \
     NODE_ENV="${NODE_ENV}" \
     USER="docker" \
-    APP_PATH="/opt/app"
+    APP_PATH="/opt/app" \
+    BUNDLE_PATH="/usr/local/bundle"
 
 # System Dependencies
 RUN bash -c "set -o pipefail && apt-get update \
@@ -30,6 +31,7 @@ RUN echo $GROUP_ID && addgroup --gid $GROUP_ID docker && \
 
 RUN mkdir -p $APP_PATH
 RUN chown -R docker:docker $APP_PATH
+RUN chown -R docker:docker $BUNDLE_PATH
 
 COPY bin/start  /usr/bin/
 RUN chmod +x /usr/bin/start
@@ -38,6 +40,8 @@ ENTRYPOINT ["start"]
 
 WORKDIR $APP_PATH
 
+USER $USER_ID
+
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
 #========================== DEVELOPMENT ===========================
@@ -45,8 +49,6 @@ FROM base AS development
 
 ENV RAILS_ENV=development \
     NODE_ENV=development
-
-USER $USER_ID
 
 #========================== PRODUCTION ===========================
 FROM base AS production
