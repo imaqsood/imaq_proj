@@ -84,6 +84,8 @@ GEM
     concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     crass (1.0.6)
+    cssbundling-rails (1.1.2)
+      railties (>= 6.0.0)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.1)
@@ -251,6 +253,7 @@ DEPENDENCIES
   bootsnap
   capybara (~> 3.38.0)
   connection_pool
+  cssbundling-rails
   database_cleaner
   debug
   factory_bot_rails (>= 6.2.0)
