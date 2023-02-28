@@ -20,7 +20,8 @@ services:
       target: development
       labels:
         imaq: 'Modern Rails Development'
-    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-P", "/tmp/server.pid"]
+    # command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-P", "/tmp/server.pid"]
+    command: ["bin/dev"]
     volumes:
       - gem_cache:/usr/local/bundle
       - ./App/:/opt/app
@@ -33,6 +34,8 @@ services:
     depends_on:
       - pg
       - redis
+    tty: true
+    stdin_open: true
   redis:
     image: redis:7.0.8-bullseye
     ports:
